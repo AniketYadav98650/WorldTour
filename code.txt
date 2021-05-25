@@ -1,0 +1,276 @@
+#include<stdio.h>
+#include<string.h>
+#include<conio.h>
+struct slist
+{
+	char email[30];
+	char password[30];
+
+	struct slist *ptr;
+
+};
+struct node1{
+    char email[40];
+    char place[40];
+    float price;
+    int numtick;
+    struct node1 *link1;
+};
+
+	typedef struct slist node;
+	node *head=NULL,*new1,*start,*prev;
+
+
+
+void bookticket(struct node1 **);
+void printticket(struct node1 *);
+void cancelticket(struct node1 **);
+
+void addUser1();
+void login();
+void addUsers();
+void displayUsers();
+void brochure();
+
+
+void main()
+{
+	int c=2,check;
+	clrscr();
+	while(c!=6){
+	printf("\t\t\t==== || WORLD TOUR || ====\n");
+	printf(" 1.Create Id For First User\n 2.Create Id For Another  Users\n 3.Email ID and PASSWORD of Existing Users\n 4.LogIn\n 5.Brochure\n 6.Exit\n");
+	printf("enter your choice\n");
+	scanf("%d",&c);
+	switch(c)
+	{
+	case 1:addUser1();
+		break;
+	case 2:addUsers();
+		break;
+	case 3:displayUsers();
+		break;
+	case 4:login();
+	       break;
+	case 5:brochure();
+		break;
+
+	}
+	}
+
+}
+
+void login(){
+	char e[30],p[30];
+	int flag =0,ch2;
+	struct node1 *pp;
+	pp=NULL;
+	start=head;
+	printf("Enter the email \n");
+	scanf("%s",e);
+	printf("Enter password\n");
+	scanf("%s",p);
+while(start!=NULL)
+{
+	if(strcmp(start->email,e)==0){
+		if(strcmp(start->password,p)==0){
+
+			printf("***************************************\n");
+			printf("login sucessfull\n");flag=1;
+			printf("***************************************\n");
+			break;
+		}
+	}
+	start=start->ptr;
+}       if(flag==0) {
+	printf("*******************************************\n");
+	printf("login failed\n");
+	printf("*******************************************\n");
+
+}
+else{
+
+	printf("\n\t\t\t\t=========================");
+		printf("\n\t\t\t\t WORLD TOUR");
+		printf("\n\t\t\t\t=========================\n");
+	    while(ch2!=4){
+	    printf("\n\t\t\t\t1.Booking Package\n\t\t\t\t2.print Ticket\n\t\t\t\t3.cancel Ticket\n\t\t\t\t4.Exit\n");
+	    scanf("%d",&ch2);
+	    switch(ch2)
+	    {
+		case 1:
+		    bookticket(&pp);
+		    break;
+		case 2:
+		    printticket(pp);
+		    break;
+		case 3:
+		    cancelticket(&pp);
+		    break;
+
+
+	    }}
+	}
+}
+void addUser1()
+{
+if(head==NULL)
+{
+head=(node*)malloc(sizeof(node));
+printf("Create your Email.Id\n");
+scanf("%s",head->email);
+printf("Create your password\n");
+scanf("%s",head->password);
+head->ptr=NULL;
+}
+else
+{
+printf("head is already created\n");
+}
+}
+void displayUsers(){
+int i = 1;
+start=head;
+printf("**************User Details**********************************\n");
+while(start!=NULL)
+{
+printf("%d email = %s\t",i++,start->email);
+printf(" password = %s\n",start->password);
+start=start->ptr;
+}
+printf("***************************************************************\n");
+}
+void addUsers()
+{
+new1=(node*)malloc(sizeof(node));
+printf("Create your Email.Id\n");
+scanf("%s",new1->email);
+printf("Create your password\n");
+scanf("%s",new1->password);
+
+new1->ptr=head;
+head=new1;
+}
+void brochure()
+{
+ printf("\tPRICE LIST\n=============================\n1. AUS- AUSTRALIA Tours - Rs 40000\n2. US - UNITED STATE Tours - Rs 60000\n3. NP - NEPAL Tours - Rs 25000\n4. IND - INDIA TOUR - Rs 38000\n"
+	   "5. BHU - BHUTAN - Rs 120000\n6. SRI - SRILANKA VACATION TOUR - Rs 10000\n7. AFG - AFGHANISTAN EDUCATIONAL TOUR - Rs 30000\n8. SA - SOUTH AFRICA TOUR - Rs 32000\n9. VC - SMALLEST CITY TOUR - Rs 45000\n10. FR - FRANCE TOUR - Rs 250000\n");
+}
+
+
+
+void cancelticket(struct node1 **q){
+char e[40];
+struct node1 *cur,*pre;
+printf("Enter name for cancel ticket\n");
+scanf("%s",e);
+
+	cur =*q;
+	while(cur!=NULL){
+		if((strcmp(cur->email,e)==0) && cur==*q){
+		       *q=cur->link1;
+		       printf("Your ticket is cancelled.Your amount will be refunded to your original account!!!\n");
+			return;
+		}
+		if(strcmp(cur->email,e)==0){
+			pre->link1=cur->link1;
+			printf("Your ticket is cancelled.Your amount will be refunded to your original account!!!\n");
+			return;
+		}
+		pre = cur;
+		cur=cur->link1;
+	}
+
+			printf("This user did not buy any ticket\n");
+
+
+}
+void bookticket(struct node1 **q){
+	char e[40];
+	char pl[40];
+	float p;
+	int n,choice;
+	float pricelist[]={40000.0,60000.0,25000.0,38000.0,120000.0,10000.0,30000.0,32000.0,45000.0,250000.0};
+	struct node1 *nn=(struct node1*)malloc(sizeof(struct node1));
+
+	printf("Enter your full Name \n");
+	scanf("%s",e);
+
+	printf("\nWould You Like to Confirm Booking?\n[1] - Yes\n[2] - No\n");
+	scanf("%d",&choice);
+	if(choice==1)
+	{
+	up:
+	brochure();
+	printf("Enter the place\n");
+	scanf("%s",pl);
+	if(strcmp(pl,"AUS")==0)
+	p=pricelist[0];
+	else if(strcmp(pl,"US")==0)
+	p=pricelist[1];
+	else if(strcmp(pl,"NP")==0)
+	p=pricelist[2];
+	else if(strcmp(pl,"IND")==0)
+	p=pricelist[3];
+	else if(strcmp(pl,"BHU")==0)
+	p=pricelist[4];
+	else if(strcmp(pl,"SRI")==0)
+	p=pricelist[5];
+	else if(strcmp(pl,"AFG")==0)
+	p=pricelist[6];
+	else if(strcmp(pl,"SA")==0)
+	p=pricelist[7];
+	else if(strcmp(pl,"VC")==0)
+	p=pricelist[8];
+	else if(strcmp(pl,"FR")==0)
+	p=pricelist[9];
+
+	else
+	{
+	printf("enter the correct name!!!\n");
+	goto up;
+	}
+	}
+	if(choice==2)
+	 {
+	  printf("booking cancelled");
+	  return;
+
+	 }
+	printf("Enter the no.of ticket\n");
+	scanf("%d",&n);
+	p = p * n;
+	strcpy(nn->email,e);
+	strcpy(nn->place,pl);
+	nn->price=p;
+	nn->numtick=n;
+	nn->link1=NULL;
+	if(*q==NULL){
+		*q=nn;
+		printf("Ticked Booked\n");
+	}
+	else{
+		struct node1 *temp=*q;
+		while(temp->link1!=NULL){
+			temp = temp->link1;
+		}
+		temp->link1=nn;
+		printf("Ticket Booked\n");
+	}
+}
+
+void printticket(struct node1 *q){
+	struct node1 *start1=q;
+	if(start1==NULL){
+		printf("Not any ticket Booked\n");
+		return;
+	}
+	printf("Name\tplace\tprice\t\tno. of ticket\n");
+	while(start1!=NULL){
+
+		printf("%s\t%s\t%.2f\t%d\n",start1->email,start1->place,start1->price,start1->numtick);
+		start1=start1->link1;
+	}
+
+
+}
